@@ -67,6 +67,7 @@ export default async function handler(req, res) {
           fulfillmentText: `The humidity level in ${city} is ${humidity}%.`,
         });
       }
+      
 
       case 'WindIntent': {
         const response = await axios.get(
@@ -79,6 +80,7 @@ export default async function handler(req, res) {
           fulfillmentText: `Wind speed in ${city} is ${windSpeed} m/s at ${windDir}°.`,
         });
       }
+      
 
       case 'AirQualityIntent': {
         const { lat, lon } = await getLatLon(city);
@@ -108,6 +110,15 @@ export default async function handler(req, res) {
           fulfillmentText: `It's ${temp}°C in ${city}. ${suggestion}`,
         });
       }
+      
+  case 'GoodbyeIntent':{
+    return res.json({
+      fulfillmentText: 'Goodbye! Stay safe and check back anytime for the latest weather updates. 🌤️',
+    });
+  }
+
+
+  
 
       default:
         return res.status(200).json({
