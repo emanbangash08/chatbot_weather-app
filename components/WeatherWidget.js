@@ -2,9 +2,23 @@
 
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { MapPin, Droplets, Wind, Search, CloudRain, Sun, Cloud, CloudSnow } from "lucide-react"
+import {
+  MapPin,
+  Droplets,
+  Wind,
+  Search,
+  CloudRain,
+  Sun,
+  Cloud,
+  CloudSnow,
+} from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export default function WeatherWidget() {
   const [weather, setWeather] = useState(null)
@@ -21,6 +35,7 @@ export default function WeatherWidget() {
         )
         setWeather(response.data)
       } catch (err) {
+        console.error("Error fetching weather:", err)
         setWeather(null)
       } finally {
         setLoading(false)
@@ -82,52 +97,68 @@ export default function WeatherWidget() {
           </div>
         ) : weather ? (
           <div className="space-y-4">
-            {/* City and Weather Icon */}
             <div className="flex items-center justify-between p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-white/20">
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-blue-600" />
-                <span className="text-xl font-semibold text-gray-800">{weather.name}</span>
+                <span className="text-xl font-semibold text-gray-800">
+                  {weather.name}
+                </span>
               </div>
               {getWeatherIcon(weather.weather[0].main)}
             </div>
 
-            {/* Temperature */}
             <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-xl border border-white/20">
-              <div className={`text-5xl font-bold ${getTemperatureColor(weather.main.temp)} mb-2`}>
+              <div
+                className={`text-5xl font-bold ${getTemperatureColor(
+                  weather.main.temp,
+                )} mb-2`}
+              >
                 {Math.round(weather.main.temp)}°C
               </div>
-              <p className="text-gray-600 capitalize text-lg font-medium">{weather.weather[0].description}</p>
+              <p className="text-gray-600 capitalize text-lg font-medium">
+                {weather.weather[0].description}
+              </p>
             </div>
 
-            {/* Weather Details */}
             <div className="grid grid-cols-2 gap-3">
               <div className="p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-white/20">
                 <div className="flex items-center gap-2 mb-2">
                   <Droplets className="w-4 h-4 text-blue-500" />
-                  <span className="text-sm font-medium text-gray-600">Humidity</span>
+                  <span className="text-sm font-medium text-gray-600">
+                    Humidity
+                  </span>
                 </div>
-                <p className="text-xl font-bold text-gray-800">{weather.main.humidity}%</p>
+                <p className="text-xl font-bold text-gray-800">
+                  {weather.main.humidity}%
+                </p>
               </div>
 
               <div className="p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-white/20">
                 <div className="flex items-center gap-2 mb-2">
                   <Wind className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm font-medium text-gray-600">Wind Speed</span>
+                  <span className="text-sm font-medium text-gray-600">
+                    Wind Speed
+                  </span>
                 </div>
-                <p className="text-xl font-bold text-gray-800">{weather.wind.speed} m/s</p>
+                <p className="text-xl font-bold text-gray-800">
+                  {weather.wind.speed} m/s
+                </p>
               </div>
             </div>
 
-            {/* Additional Info */}
             <div className="p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-white/20">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <span className="text-gray-600">Feels like:</span>
-                  <span className="ml-2 font-semibold text-gray-800">{Math.round(weather.main.feels_like)}°C</span>
+                  <span className="ml-2 font-semibold text-gray-800">
+                    {Math.round(weather.main.feels_like)}°C
+                  </span>
                 </div>
                 <div>
                   <span className="text-gray-600">Pressure:</span>
-                  <span className="ml-2 font-semibold text-gray-800">{weather.main.pressure} hPa</span>
+                  <span className="ml-2 font-semibold text-gray-800">
+                    {weather.main.pressure} hPa
+                  </span>
                 </div>
               </div>
             </div>
@@ -135,8 +166,9 @@ export default function WeatherWidget() {
         ) : (
           <div className="text-center py-8">
             <div className="p-4 bg-red-50 rounded-xl border border-red-200">
-              <p className="text-red-600 font-medium">Enter city to know a today's Forecast</p>
-            
+              <p className="text-red-600 font-medium">
+                Enter city to know a today&apos;s Forecast
+              </p>
             </div>
           </div>
         )}
